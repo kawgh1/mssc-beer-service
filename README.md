@@ -9,6 +9,7 @@ CircleCI badge
 - **What is it?** A tool for generating API documentation from controller tests
 - Developed by Andy Wilkinson of Pivotal
 - Spring REST Docs hooks into controller tests to generate documentation snippets
+- ***Idea being - as soon as your controller tests fail, your API Docs fail also, so there's no delay***
 - The snippets are then assembled into final documentation via AsciiDoctor
 - Test Clients Supported:
     - Spring MVC Test
