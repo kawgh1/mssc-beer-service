@@ -1,5 +1,7 @@
 package com.kwgdev.msscbeerservice.bootstrap;
 
+import lombok.Data;
+
 import com.kwgdev.msscbeerservice.domain.Beer;
 import com.kwgdev.msscbeerservice.repositories.BeerRepository;
 import org.springframework.boot.CommandLineRunner;
