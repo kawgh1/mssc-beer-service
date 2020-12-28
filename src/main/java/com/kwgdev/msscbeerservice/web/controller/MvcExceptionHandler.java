@@ -17,7 +17,7 @@ public class MvcExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<List> validationErrorHandler(ConstraintViolationException ex){
-        List<String> errorsList = new ArrayList<String>(ex.getConstraintViolations().size());
+        List<String> errorsList = new ArrayList<>(ex.getConstraintViolations().size());
 
         ex.getConstraintViolations().forEach(error -> errorsList.add(error.toString()));
 

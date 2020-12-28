@@ -1,5 +1,6 @@
 package com.kwgdev.msscbeerservice.web.controller;
 
+import com.kwgdev.msscbeerservice.bootstrap.BeerLoader;
 import com.kwgdev.msscbeerservice.domain.Beer;
 import com.kwgdev.msscbeerservice.repositories.BeerRepository;
 import com.kwgdev.msscbeerservice.service.BeerService;
@@ -134,12 +135,11 @@ class BeerControllerTest {
 
     BeerDto getValidBeerDto(){
         return BeerDto.builder()
-                .beerName("Nice Ale")
+                .beerName("My Beer")
                 .beerStyle(BeerStyleEnum.ALE)
-                .price(new BigDecimal("9.99"))
-                .upc(123123123123L)
+                .price(new BigDecimal("2.99"))
+                .upc(BeerLoader.BEER_1_UPC)
                 .build();
-
     }
 
     // used to generate Spring REST docs under target/generated-docs and generated-snippets folders
