@@ -10,12 +10,29 @@ import org.springframework.data.domain.Pageable;
 import java.io.Serializable;
 import java.util.List;
 
+/** Just for the sake of persistence and caching of domain objects, Serializable is not needed.
+ * Spring boot and Jackson are sufficient. But it is best practice to make them Serializable.
+
+ * According to JPA spec:
+
+ * An entity instance is to be passed by value as a detached object (e.g., through a remote interface),
+ * the entity class must implement the Serializable interface.
+
+
+ * One example when making your domain object serializable helps.
+ * When domain objects are directly exposed to the presentation layer,
+ * we could just pass the detached entities as value holders to the front-end.
+ * In that case, we need to implement Serializable.
+ */
+
 /**
  * created by kw on 12/11/2020 @ 2:09 PM
  */
 public class BeerPagedList extends PageImpl<BeerDto> implements Serializable {
 
-    static final long serialVersionUID = 1114715135625836949L;
+
+
+    static final long serialVersionUID = 2613661551459347576L;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public BeerPagedList(@JsonProperty("content") List<BeerDto> content,

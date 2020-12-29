@@ -12,6 +12,26 @@ CircleCI badge
 
 # MSSC Beer Service - Microservice
 
+### Ehcache
+
+- https://www.baeldung.com/ehcache
+- Ehcache utilizes Java's on-heap RAM memory to store cache entries
+- this application will use Ehcache - very popular, robust and one of the top Java caching managers
+- will add caching layer for listBeers, getBeerById and getBeerByUpc  - Ehcache is a good candidate because the beer information isn't going to change that much
+- what it will do?
+    - provide fast access to the Beer data while avoiding a call to the database 
+    - significantly improves the performance of our getBeer APIs
+    - here we set it up to only run when we are NOT getting BeerInventory information
+        - because inventory is dynamic and changes often and quickly
+        
+- each running instance is going to have its own local cache, so if you have 3 instances running you have 1 in 3 chance of getting a cache response
+- there are technologies available where instances can share a cache 
+- Ehcache can be configured so that if you do have multiple instances running, it reads from a single cache
+
+
+
+
+
 ### Spring MVC REST Docs
 - **What is it?** A tool for generating API documentation from controller tests
 - Developed by Andy Wilkinson of Pivotal

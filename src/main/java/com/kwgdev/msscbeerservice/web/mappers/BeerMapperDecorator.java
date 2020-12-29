@@ -30,6 +30,8 @@ public abstract class BeerMapperDecorator implements BeerMapper {
 
     @Override
     public BeerDto beerToBeerDto(Beer beer) {
+
+        // take in a beer object, return BeerDto
         return mapper.beerToBeerDto(beer);
     }
 

@@ -52,6 +52,8 @@ public class BeerController {
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
+    // http://localhost:8080/api/v1/beer/?showInventoryOnHand=true - will show quantityOnHand
+    // http://localhost:8080/api/v1/beer/ - will show "null" for quantityOnHand
     @GetMapping("beer/{beerId}")
     public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") UUID beerId,
                                                @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand){
@@ -62,6 +64,7 @@ public class BeerController {
         return new ResponseEntity<>(beerService.getById(beerId, showInventoryOnHand), HttpStatus.OK);
     }
 
+    // http://localhost:8080/api/v1/beerUpc/654654657656
     @GetMapping("beerUpc/{upc}")
     public ResponseEntity<BeerDto> getBeerByUpc(@PathVariable("upc") String upc){
         return new ResponseEntity<>(beerService.getByUpc(upc), HttpStatus.OK);

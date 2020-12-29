@@ -26,9 +26,13 @@ public class BeerServiceImpl implements BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
+    // cacheNames corresponds to name defined in resources/ehcache.xml
+    // conditional caching - only cache this value when showInventoryOnHand is false
     @Cacheable(cacheNames = "beerListCache", condition = "#showInventoryOnHand == false ")
     @Override
     public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand) {
+
+
 
         // this method goes out and builds a page object with the information from the Beer Repository
         BeerPagedList beerPagedList;
@@ -51,6 +55,7 @@ public class BeerServiceImpl implements BeerService {
         }
 
         if (showInventoryOnHand){
+            // http://localhost:8080/api/v1/beer/?showInventoryOnHand=true
             beerPagedList = new BeerPagedList(beerPage
                     .getContent()
                     .stream()
@@ -62,6 +67,8 @@ public class BeerServiceImpl implements BeerService {
                                     beerPage.getPageable().getPageSize()),
                     beerPage.getTotalElements());
         } else {
+            // http://localhost:8080/api/v1/beer/
+            System.out.println("listBeers caching was initiated here");
             beerPagedList = new BeerPagedList(beerPage
                     .getContent()
                     .stream()
@@ -76,14 +83,19 @@ public class BeerServiceImpl implements BeerService {
         return beerPagedList;
     }
 
+    // cacheNames corresponds to name defined in resources/ehcache.xml
+    // conditional caching - only cache this value when showInventoryOnHand is false
     @Cacheable(cacheNames = "beerCache", key = "#beerId", condition = "#showInventoryOnHand == false ")
     @Override
     public BeerDto getById(UUID beerId, Boolean showInventoryOnHand) {
         if (showInventoryOnHand) {
+            // http://localhost:8080/api/v1/beer/a712d914-61ea-4623-8bd0-32c0f6545bfd/?showInventoryOnHand=true example
             return beerMapper.beerToBeerDtoWithInventory(
                     beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
             );
         } else {
+            // http://localhost:8080/api/v1/beer/a712d914-61ea-4623-8bd0-32c0f6545bfd example
+            System.out.println("getBeer caching was initiated here");
             return beerMapper.beerToBeerDto(
                     beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
             );
@@ -110,6 +122,8 @@ public class BeerServiceImpl implements BeerService {
     @Cacheable(cacheNames = "beerUpcCache")
     @Override
     public BeerDto getByUpc(String upc) {
+
+        // http://localhost:8080/api/v1/beerUpc/654654657656
         return beerMapper.beerToBeerDto(beerRepository.findByUpc(upc));
     }
 }
