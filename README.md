@@ -37,7 +37,15 @@ Steps for Deconstruction into  Microservices
 4. JMS with Microservices
 5. Spring State Machine
 
-### Java Messaging Service (JMS)
+# Contents
+1. [JMS](#jms)
+2.[Data Source(MySQL) Connection Pooling](#data-source-connection-pooling)
+3. [HikariCP with Spring Boot 2.x](#hikari)
+4. [Ehcache](#ehcache)
+5. [Spring MVC REST Docs](#restdocs)
+
+
+### Java Messaging Service (JMS)(#jms)
 - What is JMS?
     - JMS is a Java API which allows a Java Application to send a message to another application
         - Generally the other application is a Java application - but not always!
@@ -94,7 +102,7 @@ Steps for Deconstruction into  Microservices
         - ### Payload
             - the message itself
             
-    - JMS Header Properties
+    - ### JMS Header Properties
         - JMSCorrelationID 
             - String value
                 - typically a UUID. Set by application, often used to trace a message through multiple consumers
@@ -110,10 +118,84 @@ Steps for Deconstruction into  Microservices
                 - Priority of the message
         - JMSTimestamp
             - Long
-                - Time message was sent   
+                - Time message was sent
+        - JMSType
+            - String
+                - The type of the message
+        - JMSReplyTo
+            - Queue or topic to which sender is expecting replies
+        - JMSRedelivery
+            - Boolean
+                - Has messaged been re-delivered?
+        - JMSDeliveryMode
+            - Integer
+                - set by JMS Provider for Delivery Mode
+                    - Persistent (Default) - JMS Provider should make best effort to deliver message
+                    - Non-Persistent - Occasional message loss is acceptable
+                    
+    - ### JMS Message Properties
+        - JSMX
+            - String
+                - User ID sending message. Set by JMS Provider.
+        - JMSXAppID
+            - String
+                - ID of the application sending the message. Set by JMS Provider.
+        - JMSXDeliveryCount
+            - Int
+                - Number of delivery attempts. Set by JMS Provider.
+        - JMSXGroupID
+            - String
+                - The message group which the message if part of. Set by JMS Client.
+        - JMSXGroupSeq
+            - Int
+                - Sequence number of message in group. Set by JMS Client.
+        - JMSXProducerTDIX
+            - String
+                - Transaction ID when message was produced. Set by JMS Producer.
+        - JSMXConsumerTDIX
+            - String
+                - Transaction ID when the message was consumed. Set by JMS Provider.
+        - JMSXRcvTimestamp
+            - Long
+                - Timestamp when messaged delivered to consumer. Set by JMS Provider.
+        - JMSXState
+            - Int
+                - State of the JMS Message. Set by JMS Provider.
+                
+    - JMS Custom Properties
+        - typically where work/config about the metadata occurs
+        - JMS Client can set custom properties on messages
+        - Properties are set as key / value pairs (String, value)
+        - Values must be one of:
+            - String, boolean, byte, double, float, int, short, long or Object
+            
+    - JMS Provider Properties
+        - The JMS Client can also set JMS Provider Specific properties
+        - These properties are set as JMS_<provider name>
+        - JMS Provider specific properties allow the client to utilize features specific to the JMS Provider
+        - Refer to documentation of your selected JMS Provider for details
+        
+    - JMS Message Types
+        - Message
+            - Just a message, no payload. Often used to notify about events.
+        - BytesMessage
+            - Payload is an array of bytes
+        - TextMessage
+            - Message is stored as a string (often JSON or XML)
+        - StreamMessage
+            - sequence of Java primitives
+        - MapMessage
+            - message is name value pairs
+        - ObjectMessage
+            - Message is a serialized Java object
+                
+          
+                
+                
+                 
              
 
-### Data Source(MySQL) Connection Pooling
+### Data Source(MySQL) Connection Pooling(#data-source-connection-pooling)
 - Establishing a Database Connection is an expensive operation
     - Call out to Database Server to get authenticated
     - Database Server needs to authenticate credentials
@@ -151,7 +233,7 @@ Steps for Deconstruction into  Microservices
         - Disabling autocommit can help improve performance
         - **More Connections is ***NOT*** always better!**
         
-### HikariCP with Spring Boot 2.x
+### HikariCP with Spring Boot 2.x(#hikari)
 
     - https://github.com/brettwooldridge/HikariCP
     - Recommended settings:
@@ -174,7 +256,7 @@ Steps for Deconstruction into  Microservices
         - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
         - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
     
-### Ehcache
+### Ehcache(#ehcache)
 
 - https://www.baeldung.com/ehcache
 - Ehcache utilizes Java's on-heap RAM memory to store cache entries
@@ -194,7 +276,7 @@ Steps for Deconstruction into  Microservices
 
 
 
-### Spring MVC REST Docs
+### Spring MVC REST Docs(#restdocs)
 - **What is it?** A tool for generating API documentation from controller tests
 - Developed by Andy Wilkinson of Pivotal
 - Spring REST Docs hooks into controller tests to generate documentation snippets
