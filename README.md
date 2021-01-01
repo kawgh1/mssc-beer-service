@@ -82,16 +82,16 @@ Steps for Deconstruction into  Microservices
     - **JMS Queue** - Queue for point to point messages. Often, not always, FIFO
     - **JMS Topic** - Similiar to a queue - but for publish & subscribe
     
-- #### JMS Message
+- ## JMS Message
     - A JMS Message contains three parts:
-        - ##### Header 
+        - ### Header 
             - contains meta data about the message
-        - ##### Properties 
+        - ### Properties 
             - Message properties are in 3 sections:
                 - **Application** - From Java Application sending message
                 - **Provider** - Used by the JMS Provider and are implementation specific
                 - **Standard Properties** - Defined by the JMS API - might not be supported by the Provider
-        - ##### Payload
+        - ### Payload
             - the message itself
             
     - JMS Header Properties
