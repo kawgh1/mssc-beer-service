@@ -40,7 +40,7 @@ Steps for Deconstruction into  Microservices
 # [Contents](#contents)
 1. [Java Messaging Service (JMS)](#java-messaging-service-jms)
 2. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
-3. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2.x)
+3. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
 4. [Ehcache](#ehcache)
 5. [Spring MVC REST Docs](#spring-mvc-rest-docs)
 
@@ -89,6 +89,8 @@ Steps for Deconstruction into  Microservices
     - **JMS Message** - the entity of data sent (see below)
     - **JMS Queue** - Queue for point to point messages. Often, not always, FIFO
     - **JMS Topic** - Similiar to a queue - but for publish & subscribe
+    
+[Top](#contents)
     
 - ## JMS Message
     - ### A JMS Message contains three parts:
@@ -223,7 +225,7 @@ Steps for Deconstruction into  Microservices
         
 [Top](#contents)
         
-### [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2.x)
+### [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
 
 - https://github.com/brettwooldridge/HikariCP
 - #### Recommended settings:
@@ -242,9 +244,9 @@ Steps for Deconstruction into  Microservices
     - spring.datasource.hikari.data-source-properties.maintainTimeStats=false
     
     - #### Enable logging for Hikari Connection Pool tuning, config, troubleshooting
-    - logging.level.org.hibernate.SQL=DEBUG
-    - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
-    - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+        - logging.level.org.hibernate.SQL=DEBUG
+        - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
+        - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
         
 [Top](#contents)
     
