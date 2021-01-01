@@ -39,6 +39,79 @@ Steps for Deconstruction into  Microservices
 
 ### Java Messaging Service (JMS)
 - What is JMS?
+    - JMS is a Java API which allows a Java Application to send a message to another application
+        - Generally the other application is a Java application - but not always!
+    - JMS is a standard Java API which requires an underlying implementation to be provided
+        - For example, JPA - where JPA is the API standard, and Hibernate is the implementation
+    - JMS is highly scalable and allows you to loosely couple applications using **asynchronous messaging**
+    
+- JMS Implementations
+    - Amazon SQS
+    - Apache ActiveMQ - used in this project
+    - JBoss Messaging
+    - IBM MQ (closed source / paid)
+    - OracleAQ - (closed source / paid)
+    - RabbitMQ
+    - Many more!
+    
+- Why use JMS over REST?
+    - JMS is a true messaging service
+    - Asynchronous - send it and forget it!
+    - Greater throughput - the HTTP protocol is slow comparatively
+        - JMS protocols are **VERY** performant
+    - Flexibility in message delivery - Deliver to one or many consumers
+    - Security - JMS has very robust security
+    - Reliability - Can guarantee message delivery
+    
+- Types of Messaging
+    - **Point to Point**
+        - Message is queued and deliver to one consumer
+        - Can have multiple consumers - but message will be delivered only ***ONCE*** (ie to exactly one consumer)
+        - Consumers connect to a queue
+        
+    - **Publish / Subscribe**
+        - Message is delivered to one or more subscribers
+        - Subscribers will subscribe to a ***topic***, then receive a copy of all messages sent to the topic
+        
+- Key Terms
+    - **JMS Provider** - JMS Implementation
+    - **JMS Client** - Application which sends or receives messages from the JMS Provider
+    - **JMS Producer (Publisher)** - JMS Client which sends messages
+    - **JMS Consumer (Subscriber)** - JMS Client which receives messages
+    - **JMS Message** - the entity of data sent (see below)
+    - **JMS Queue** - Queue for point to point messages. Often, not always, FIFO
+    - **JMS Topic** - Similiar to a queue - but for publish & subscribe
+    
+- JMS Message
+    - A JMS Message contains three parts:
+        - Header 
+            - contains meta data about the message
+        - Properties 
+            - Message properties are in 3 sections:
+                - **Application** - From Java Application sending message
+                - **Provider** - Used by the JMS Provider and are implementation specific
+                - **Standard Properties** - Defined by the JMS API - might not be supported by the Provider
+        - Payload
+            - the message itself
+            
+    - JMS Header Properties
+        - JMSCorrelationID 
+            - String value
+                - typically a UUID. Set by application, often used to trace a message through multiple consumers
+        - JMSExpires 
+            - Long
+                - zero, does not expire.
+                - else, time when message will expire and be removed form the queue.
+        - JMSMessageID
+            - String value
+                - typically set by the JMS Provider
+        - JMSPriority
+            - Integer
+                - Priority of the message
+        - JMSTimestamp
+            - Long
+                - Time message was sent   
+             
 
 ### Data Source(MySQL) Connection Pooling
 - Establishing a Database Connection is an expensive operation
