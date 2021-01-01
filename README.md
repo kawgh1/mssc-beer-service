@@ -1,5 +1,23 @@
 ##### Part of John Thompson's Microservices course
 
+**Beer Service** is responsible for generating the Beer objects used in the application and stores that Beer object data in a database. 
+**Beer Order Service** and **Beer Inventory** make calls to **Beer Service** to get information about the Beer objects.
+
+Beer object example:
+
+UUID **id** = '026cc3c8-3a0c-4083-a05b-e908048c1b08' 
+String **beer_name** = 'Pinball Porter' 
+String **beer_style** = 'PORTER' 
+Timestamp **created_date** = CURRENT_TIMESTAMP 
+Timestamp **last_modified_date** = CURRENT_TIMESTAMP 
+Integer **min_on_hand** = 12 
+Integer **quantity_to_brew** = 200 
+BigDecimal **price** = 12.95 
+String **upc** = '0083783375213' 
+Long **version** = 1
+
+ 
+
 # Default Port Mappings - For Single Host
 | Service Name | Port | 
 | --------| -----|
@@ -12,6 +30,77 @@ CircleCI badge
 
 # MSSC Beer Service - Microservice
 
+Steps for Deconstruction into  Microservices
+1. Dependency Management
+2. (Local) MySQL Configuration
+3. JMS Messaging
+4. JMS with Microservices
+5. Spring State Machine
+
+### Java Messaging Service (JMS)
+- What is JMS?
+
+### Data Source(MySQL) Connection Pooling
+- Establishing a Database Connection is an expensive operation
+    - Call out to Database Server to get authenticated
+    - Database Server needs to authenticate credentials
+    - Database Server establishes a connection
+    - Database Server establishes a session - ie allocate memory and resources
+    
+- Datasource Optimizations
+    - Prepared Statements: SQL Statements with placeholders for variables
+        - Saves server from having to parse and optimize execution plan
+        - Huge Cost Savings (performance)
+        - Avoid SQL Injection attacks (security)
+    - Optimizations within a single datasource connection:
+        - Ability to cache prepared statements (may be at the server level too)
+        - Use serve side prepared statements
+        - Statement Batching (series of INSERTs or series of UPDATEs)
+        
+    - Datasource Connection Pooling
+        - In between the Database Server and the Client exists a connection pool of existing, established connections waiting for work to do
+        - When a Client Request comes in, it grabs a connection, does its work in the Database Server and then releases the connection
+        - Spring Boot 1.x used Tomcat
+        - Spring Boot 2.x moved to HikariCP
+            - HikariCP is very light weight
+            - Very high performance!
+            - Hikari has a number of configuration options
+            
+    - Hacker's Guide to Connection Pool Tuning
+        - Every RDMS will accept a max number of connections - each connection has a cost (Server memory, Server CPU, etc.)!
+        - If running multiple instances of your microservice (multiple Spring Boot Contexts), keep number of pool connections lower
+            - If fewer instances, can go to a higher number of connections per instance
+            - Every instance you add, adds 5-10+ pool connections, and each of those connections has to be managed by the BackEnd Server
+        - MySQL defaults to a limit of 151 connections
+            - Can be adjusted to much higher - depending on the hardware running MySQL
+        - Statement caching is good
+            - BUT - does consume memory on the server
+        - Disabling autocommit can help improve performance
+        - **More Connections is ***NOT*** always better!**
+        
+### HikariCP with Spring Boot 2.x
+
+    - https://github.com/brettwooldridge/HikariCP
+    - Recommended settings:
+    
+        - spring.datasource.hikari.maximum-pool-size=5 (relative to # of instances, server capabilities, etc.)
+    
+        - spring.datasource.hikari.data-source-properties.cachePrepStmts=true
+        - spring.datasource.hikari.data-source-properties.prepStmtCacheSize=250
+        - spring.datasource.hikari.data-source-properties.prepStmtCacheSqlLimit=2048
+        - spring.datasource.hikari.data-source-properties.useServerPrepStmts=true
+        - spring.datasource.hikari.data-source-properties.useLocalSessionState=true
+        - spring.datasource.hikari.data-source-properties.rewriteBatchedStatements=true
+        - spring.datasource.hikari.data-source-properties.cacheResultSetMetadata=true
+        - spring.datasource.hikari.data-source-properties.cacheServerConfiguration=true
+        - spring.datasource.hikari.data-source-properties.elideSetAutoCommits=true
+        - spring.datasource.hikari.data-source-properties.maintainTimeStats=false
+        
+        - Enable logging for Hikari Connection Pool tuning, config, troubleshooting
+        - logging.level.org.hibernate.SQL=DEBUG
+        - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
+        - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+    
 ### Ehcache
 
 - https://www.baeldung.com/ehcache
@@ -21,7 +110,7 @@ CircleCI badge
 - what it will do?
     - provide fast access to the Beer data while avoiding a call to the database 
     - significantly improves the performance of our getBeer APIs
-    - here we set it up to only run when we are NOT getting BeerInventory information
+    - here we set it up to only run when we are NOT getting BeerInventory information (conditional caching)
         - because inventory is dynamic and changes often and quickly
         
 - each running instance is going to have its own local cache, so if you have 3 instances running you have 1 in 3 chance of getting a cache response
