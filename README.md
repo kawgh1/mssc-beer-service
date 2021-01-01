@@ -45,7 +45,7 @@ Steps for Deconstruction into  Microservices
 5. [Spring MVC REST Docs](#restdocs)
 
 
-[### Java Messaging Service (JMS)](#jms)
+### [Java Messaging Service (JMS)](#jms)
 - What is JMS?
     - JMS is a Java API which allows a Java Application to send a message to another application
         - Generally the other application is a Java application - but not always!
@@ -180,7 +180,7 @@ Steps for Deconstruction into  Microservices
                  
              
 
-[### Data Source(MySQL) Connection Pooling](#data-source-connection-pooling)
+### [Data Source(MySQL) Connection Pooling](#data-source-connection-pooling)
 - #### Establishing a Database Connection is an expensive operation
     - Call out to Database Server to get authenticated
     - Database Server needs to authenticate credentials
@@ -218,7 +218,7 @@ Steps for Deconstruction into  Microservices
         - Disabling autocommit can help improve performance
         - **More Connections is ***NOT*** always better!**
         
-[### HikariCP with Spring Boot 2.x](#hikari)
+### [HikariCP with Spring Boot 2.x](#hikari)
 
     - https://github.com/brettwooldridge/HikariCP
     - #### Recommended settings:
@@ -241,7 +241,7 @@ Steps for Deconstruction into  Microservices
         - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
         - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
     
-[### Ehcache](#ehcache)
+### [Ehcache](#ehcache)
 
 - https://www.baeldung.com/ehcache
 - Ehcache utilizes Java's on-heap RAM memory to store cache entries
@@ -261,7 +261,7 @@ Steps for Deconstruction into  Microservices
 
 
 
-[### Spring MVC REST Docs](#restdocs)
+### [Spring MVC REST Docs](#restdocs)
 - #### **What is it?** A tool for generating API documentation from controller tests
 - Developed by Andy Wilkinson of Pivotal
 - Spring REST Docs hooks into controller tests to generate documentation snippets
