@@ -39,13 +39,13 @@ Steps for Deconstruction into  Microservices
 
 # Contents
 1. [JMS](#jms)
-2.[Data Source(MySQL) Connection Pooling](#data-source-connection-pooling)
+2. [Data Source(MySQL) Connection Pooling](#data-source-connection-pooling)
 3. [HikariCP with Spring Boot 2.x](#hikari)
 4. [Ehcache](#ehcache)
 5. [Spring MVC REST Docs](#restdocs)
 
 
-### Java Messaging Service (JMS)(#jms)
+[### Java Messaging Service (JMS)](#jms)
 - What is JMS?
     - JMS is a Java API which allows a Java Application to send a message to another application
         - Generally the other application is a Java application - but not always!
@@ -91,7 +91,7 @@ Steps for Deconstruction into  Microservices
     - **JMS Topic** - Similiar to a queue - but for publish & subscribe
     
 - ## JMS Message
-    - A JMS Message contains three parts:
+    - ### A JMS Message contains three parts:
         - ### Header 
             - contains meta data about the message
         - ### Properties 
@@ -103,90 +103,90 @@ Steps for Deconstruction into  Microservices
             - the message itself
             
     - ### JMS Header Properties
-        - JMSCorrelationID 
+        - #### JMSCorrelationID 
             - String value
                 - typically a UUID. Set by application, often used to trace a message through multiple consumers
-        - JMSExpires 
+        - #### JMSExpires 
             - Long
                 - zero, does not expire.
                 - else, time when message will expire and be removed form the queue.
-        - JMSMessageID
+        - #### JMSMessageID
             - String value
                 - typically set by the JMS Provider
-        - JMSPriority
+        - #### JMSPriority
             - Integer
                 - Priority of the message
-        - JMSTimestamp
+        - #### JMSTimestamp
             - Long
                 - Time message was sent
-        - JMSType
+        - #### JMSType
             - String
                 - The type of the message
-        - JMSReplyTo
+        - #### JMSReplyTo
             - Queue or topic to which sender is expecting replies
-        - JMSRedelivery
+        - #### JMSRedelivery
             - Boolean
                 - Has messaged been re-delivered?
-        - JMSDeliveryMode
+        - #### JMSDeliveryMode
             - Integer
                 - set by JMS Provider for Delivery Mode
                     - Persistent (Default) - JMS Provider should make best effort to deliver message
                     - Non-Persistent - Occasional message loss is acceptable
                     
     - ### JMS Message Properties
-        - JSMX
+        - #### JSMX
             - String
                 - User ID sending message. Set by JMS Provider.
-        - JMSXAppID
+        - #### JMSXAppID
             - String
                 - ID of the application sending the message. Set by JMS Provider.
-        - JMSXDeliveryCount
+        - #### JMSXDeliveryCount
             - Int
                 - Number of delivery attempts. Set by JMS Provider.
-        - JMSXGroupID
+        - #### JMSXGroupID
             - String
                 - The message group which the message if part of. Set by JMS Client.
-        - JMSXGroupSeq
+        - #### JMSXGroupSeq
             - Int
                 - Sequence number of message in group. Set by JMS Client.
-        - JMSXProducerTDIX
+        - #### JMSXProducerTDIX
             - String
                 - Transaction ID when message was produced. Set by JMS Producer.
-        - JSMXConsumerTDIX
+        - #### JSMXConsumerTDIX
             - String
                 - Transaction ID when the message was consumed. Set by JMS Provider.
-        - JMSXRcvTimestamp
+        - #### JMSXRcvTimestamp
             - Long
                 - Timestamp when messaged delivered to consumer. Set by JMS Provider.
-        - JMSXState
+        - #### JMSXState
             - Int
                 - State of the JMS Message. Set by JMS Provider.
                 
-    - JMS Custom Properties
+    - #### JMS Custom Properties
         - typically where work/config about the metadata occurs
         - JMS Client can set custom properties on messages
         - Properties are set as key / value pairs (String, value)
         - Values must be one of:
             - String, boolean, byte, double, float, int, short, long or Object
             
-    - JMS Provider Properties
+    - #### JMS Provider Properties
         - The JMS Client can also set JMS Provider Specific properties
         - These properties are set as JMS_<provider name>
         - JMS Provider specific properties allow the client to utilize features specific to the JMS Provider
         - Refer to documentation of your selected JMS Provider for details
         
-    - JMS Message Types
-        - Message
+    - ### JMS Message Types
+        - #### Message
             - Just a message, no payload. Often used to notify about events.
-        - BytesMessage
+        - #### BytesMessage
             - Payload is an array of bytes
-        - TextMessage
+        - #### TextMessage
             - Message is stored as a string (often JSON or XML)
-        - StreamMessage
+        - #### StreamMessage
             - sequence of Java primitives
-        - MapMessage
+        - #### MapMessage
             - message is name value pairs
-        - ObjectMessage
+        - #### ObjectMessage
             - Message is a serialized Java object
                 
           
@@ -195,14 +195,14 @@ Steps for Deconstruction into  Microservices
                  
              
 
-### Data Source(MySQL) Connection Pooling(#data-source-connection-pooling)
-- Establishing a Database Connection is an expensive operation
+[### Data Source(MySQL) Connection Pooling](#data-source-connection-pooling)
+- #### Establishing a Database Connection is an expensive operation
     - Call out to Database Server to get authenticated
     - Database Server needs to authenticate credentials
     - Database Server establishes a connection
     - Database Server establishes a session - ie allocate memory and resources
     
-- Datasource Optimizations
+- #### Datasource Optimizations
     - Prepared Statements: SQL Statements with placeholders for variables
         - Saves server from having to parse and optimize execution plan
         - Huge Cost Savings (performance)
@@ -233,10 +233,10 @@ Steps for Deconstruction into  Microservices
         - Disabling autocommit can help improve performance
         - **More Connections is ***NOT*** always better!**
         
-### HikariCP with Spring Boot 2.x(#hikari)
+[### HikariCP with Spring Boot 2.x](#hikari)
 
     - https://github.com/brettwooldridge/HikariCP
-    - Recommended settings:
+    - #### Recommended settings:
     
         - spring.datasource.hikari.maximum-pool-size=5 (relative to # of instances, server capabilities, etc.)
     
@@ -256,13 +256,13 @@ Steps for Deconstruction into  Microservices
         - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
         - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
     
-### Ehcache(#ehcache)
+[### Ehcache](#ehcache)
 
 - https://www.baeldung.com/ehcache
 - Ehcache utilizes Java's on-heap RAM memory to store cache entries
 - this application will use Ehcache - very popular, robust and one of the top Java caching managers
 - will add caching layer for listBeers, getBeerById and getBeerByUpc  - Ehcache is a good candidate because the beer information isn't going to change that much
-- what it will do?
+- ### what it will do?
     - provide fast access to the Beer data while avoiding a call to the database 
     - significantly improves the performance of our getBeer APIs
     - here we set it up to only run when we are NOT getting BeerInventory information (conditional caching)
@@ -276,8 +276,8 @@ Steps for Deconstruction into  Microservices
 
 
 
-### Spring MVC REST Docs(#restdocs)
-- **What is it?** A tool for generating API documentation from controller tests
+[### Spring MVC REST Docs](#restdocs)
+- #### **What is it?** A tool for generating API documentation from controller tests
 - Developed by Andy Wilkinson of Pivotal
 - Spring REST Docs hooks into controller tests to generate documentation snippets
 - ***Idea being - as soon as your controller tests fail, your API Docs fail also, so there's no delay***
