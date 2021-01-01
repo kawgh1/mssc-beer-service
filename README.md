@@ -104,29 +104,23 @@ Steps for Deconstruction into  Microservices
             
     - ### JMS Header Properties
         - #### JMSCorrelationID 
-            - String value
-                - typically a UUID. Set by application, often used to trace a message through multiple consumers
+            - String - typically a UUID. Set by application, often used to trace a message through multiple consumers
         - #### JMSExpires 
             - Long
                 - zero, does not expire.
                 - else, time when message will expire and be removed form the queue.
         - #### JMSMessageID
-            - String value
-                - typically set by the JMS Provider
+            - String - typically set by the JMS Provider
         - #### JMSPriority
-            - Integer
-                - Priority of the message
+            - Integer - Priority of the message
         - #### JMSTimestamp
-            - Long
-                - Time message was sent
+            - Long - Time message was sent
         - #### JMSType
-            - String
-                - The type of the message
+            - String - The type of the message
         - #### JMSReplyTo
             - Queue or topic to which sender is expecting replies
         - #### JMSRedelivery
-            - Boolean
-                - Has messaged been re-delivered?
+            - Boolean - Has messaged been re-delivered?
         - #### JMSDeliveryMode
             - Integer
                 - set by JMS Provider for Delivery Mode
@@ -135,32 +129,23 @@ Steps for Deconstruction into  Microservices
                     
     - ### JMS Message Properties
         - #### JSMX
-            - String
-                - User ID sending message. Set by JMS Provider.
+            - String - User ID sending message. Set by JMS Provider.
         - #### JMSXAppID
-            - String
-                - ID of the application sending the message. Set by JMS Provider.
+            - String - ID of the application sending the message. Set by JMS Provider.
         - #### JMSXDeliveryCount
-            - Int
-                - Number of delivery attempts. Set by JMS Provider.
+            - Int - Number of delivery attempts. Set by JMS Provider.
         - #### JMSXGroupID
-            - String
-                - The message group which the message if part of. Set by JMS Client.
+            - String - The message group which the message if part of. Set by JMS Client.
         - #### JMSXGroupSeq
-            - Int
-                - Sequence number of message in group. Set by JMS Client.
+            - Int - Sequence number of message in group. Set by JMS Client.
         - #### JMSXProducerTDIX
-            - String
-                - Transaction ID when message was produced. Set by JMS Producer.
+            - String - Transaction ID when message was produced. Set by JMS Producer.
         - #### JSMXConsumerTDIX
-            - String
-                - Transaction ID when the message was consumed. Set by JMS Provider.
+            - String - Transaction ID when the message was consumed. Set by JMS Provider.
         - #### JMSXRcvTimestamp
-            - Long
-                - Timestamp when messaged delivered to consumer. Set by JMS Provider.
+            - Long - Timestamp when messaged delivered to consumer. Set by JMS Provider.
         - #### JMSXState
-            - Int
-                - State of the JMS Message. Set by JMS Provider.
+            - Int - State of the JMS Message. Set by JMS Provider.
                 
     - #### JMS Custom Properties
         - typically where work/config about the metadata occurs
