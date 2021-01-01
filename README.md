@@ -37,12 +37,12 @@ Steps for Deconstruction into  Microservices
 4. JMS with Microservices
 5. Spring State Machine
 
-# Contents
+# [Contents](#contents)
 1. [JMS](#jms)
-2. [Data Source(MySQL) Connection Pooling](#data-source-connection-pooling)
-3. [HikariCP with Spring Boot 2.x](#hikari)
+2. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
+3. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2xhikari)
 4. [Ehcache](#ehcache)
-5. [Spring MVC REST Docs](#restdocs)
+5. [Spring MVC REST Docs](#spring-mvc-rest-docs)
 
 
 ### [Java Messaging Service (JMS)](#jms)
@@ -173,6 +173,9 @@ Steps for Deconstruction into  Microservices
             - message is name value pairs
         - #### ObjectMessage
             - Message is a serialized Java object
+            
+            
+[Top](#contents)
                 
           
                 
@@ -180,7 +183,7 @@ Steps for Deconstruction into  Microservices
                  
              
 
-### [Data Source(MySQL) Connection Pooling](#data-source-connection-pooling)
+### [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
 - #### Establishing a Database Connection is an expensive operation
     - Call out to Database Server to get authenticated
     - Database Server needs to authenticate credentials
@@ -218,7 +221,9 @@ Steps for Deconstruction into  Microservices
         - Disabling autocommit can help improve performance
         - **More Connections is ***NOT*** always better!**
         
-### [HikariCP with Spring Boot 2.x](#hikari)
+[Top](#contents)
+        
+### [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2xhikari)
 
     - https://github.com/brettwooldridge/HikariCP
     - #### Recommended settings:
@@ -240,6 +245,8 @@ Steps for Deconstruction into  Microservices
         - logging.level.org.hibernate.SQL=DEBUG
         - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
         - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+        
+[Top](#contents)
     
 ### [Ehcache](#ehcache)
 
@@ -257,11 +264,13 @@ Steps for Deconstruction into  Microservices
 - there are technologies available where instances can share a cache 
 - Ehcache can be configured so that if you do have multiple instances running, it reads from a single cache
 
+[Top](#contents)
 
 
 
 
-### [Spring MVC REST Docs](#restdocs)
+
+### [Spring MVC REST Docs](#spring-mvc-rest-docs)
 - #### **What is it?** A tool for generating API documentation from controller tests
 - Developed by Andy Wilkinson of Pivotal
 - Spring REST Docs hooks into controller tests to generate documentation snippets
@@ -297,6 +306,11 @@ Steps for Deconstruction into  Microservices
     - restdocsext-jersey - Enable use of REST Docs with Jersey's test framework
     - spring-auto-restdocs - Use reflection to automatically document request and response params
     - restdocs-api-spec - Generate OpenAPI 2 and OpenAPI 3 specifications
+    
+    
+
+
+[Top](#contents)
 
 
 
