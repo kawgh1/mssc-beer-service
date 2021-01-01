@@ -40,7 +40,7 @@ Steps for Deconstruction into  Microservices
 # [Contents](#contents)
 1. [JMS](#jms)
 2. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
-3. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2xhikari)
+3. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2-x)
 4. [Ehcache](#ehcache)
 5. [Spring MVC REST Docs](#spring-mvc-rest-docs)
 
@@ -223,28 +223,28 @@ Steps for Deconstruction into  Microservices
         
 [Top](#contents)
         
-### [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2xhikari)
+### [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2-x)
 
-    - https://github.com/brettwooldridge/HikariCP
-    - #### Recommended settings:
+- https://github.com/brettwooldridge/HikariCP
+- #### Recommended settings:
+
+    - spring.datasource.hikari.maximum-pool-size=5 (relative to # of instances, server capabilities, etc.)
+
+    - spring.datasource.hikari.data-source-properties.cachePrepStmts=true
+    - spring.datasource.hikari.data-source-properties.prepStmtCacheSize=250
+    - spring.datasource.hikari.data-source-properties.prepStmtCacheSqlLimit=2048
+    - spring.datasource.hikari.data-source-properties.useServerPrepStmts=true
+    - spring.datasource.hikari.data-source-properties.useLocalSessionState=true
+    - spring.datasource.hikari.data-source-properties.rewriteBatchedStatements=true
+    - spring.datasource.hikari.data-source-properties.cacheResultSetMetadata=true
+    - spring.datasource.hikari.data-source-properties.cacheServerConfiguration=true
+    - spring.datasource.hikari.data-source-properties.elideSetAutoCommits=true
+    - spring.datasource.hikari.data-source-properties.maintainTimeStats=false
     
-        - spring.datasource.hikari.maximum-pool-size=5 (relative to # of instances, server capabilities, etc.)
-    
-        - spring.datasource.hikari.data-source-properties.cachePrepStmts=true
-        - spring.datasource.hikari.data-source-properties.prepStmtCacheSize=250
-        - spring.datasource.hikari.data-source-properties.prepStmtCacheSqlLimit=2048
-        - spring.datasource.hikari.data-source-properties.useServerPrepStmts=true
-        - spring.datasource.hikari.data-source-properties.useLocalSessionState=true
-        - spring.datasource.hikari.data-source-properties.rewriteBatchedStatements=true
-        - spring.datasource.hikari.data-source-properties.cacheResultSetMetadata=true
-        - spring.datasource.hikari.data-source-properties.cacheServerConfiguration=true
-        - spring.datasource.hikari.data-source-properties.elideSetAutoCommits=true
-        - spring.datasource.hikari.data-source-properties.maintainTimeStats=false
-        
-        - Enable logging for Hikari Connection Pool tuning, config, troubleshooting
-        - logging.level.org.hibernate.SQL=DEBUG
-        - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
-        - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+    - #### Enable logging for Hikari Connection Pool tuning, config, troubleshooting
+    - logging.level.org.hibernate.SQL=DEBUG
+    - logging.level.com.zaxxer.hikari.HikariConfig=DEBUG
+    - logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
         
 [Top](#contents)
     
