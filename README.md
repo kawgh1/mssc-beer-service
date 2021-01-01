@@ -38,14 +38,14 @@ Steps for Deconstruction into  Microservices
 5. Spring State Machine
 
 # [Contents](#contents)
-1. [JMS](#jms)
+1. [Java Messaging Service (JMS)](#java-messaging-service-jms)
 2. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
-3. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2-x)
+3. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2.x)
 4. [Ehcache](#ehcache)
 5. [Spring MVC REST Docs](#spring-mvc-rest-docs)
 
 
-### [Java Messaging Service (JMS)](#jms)
+### [Java Messaging Service (JMS)](#java-messaging-service-jms)
 - What is JMS?
     - JMS is a Java API which allows a Java Application to send a message to another application
         - Generally the other application is a Java application - but not always!
@@ -223,7 +223,7 @@ Steps for Deconstruction into  Microservices
         
 [Top](#contents)
         
-### [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2-x)
+### [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2.x)
 
 - https://github.com/brettwooldridge/HikariCP
 - #### Recommended settings:
