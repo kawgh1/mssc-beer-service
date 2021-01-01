@@ -176,6 +176,17 @@ Steps for Deconstruction into  Microservices
         - #### ObjectMessage
             - Message is a serialized Java object
             
+    - ### Which Message Type To Use?
+        - JMS 1.0 was originally released in 1998 - initial focus was on Java to Java messaging
+        - Since 1998, Messaging and technology have grown and evolved beyond the Java ecosystem
+        - **JMS TextMessages with JSON or XML payloads are currently favored**
+            - Decoupled from Java - can be consumed by any technology
+            - Not uncommon to 'bridge' to non-java providers
+            - Makes migration to a non-JMS provider less painful
+                - Important since messaging is becoming more and more generic and abstracted
+                - Fore example, tools like **Spring Integration**
+                    - where an application sends a message and as a developer you are completely unaware of what the messaging infrastructure is
+            
             
 [Top](#contents)
                 
