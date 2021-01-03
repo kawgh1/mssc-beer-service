@@ -1,4 +1,4 @@
-package com.kwgdev.msscbeerservice.events;
+package com.kwgdev.common.events;
 
 import com.kwgdev.msscbeerservice.web.model.BeerDto;
 import lombok.*;
