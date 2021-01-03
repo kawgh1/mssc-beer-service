@@ -1,9 +1,7 @@
 package com.kwgdev.msscbeerservice.events;
 
 import com.kwgdev.msscbeerservice.web.model.BeerDto;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -11,11 +9,12 @@ import java.io.Serializable;
  * created by kw on 1/3/2021 @ 1:01 PM
  */
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
+@NoArgsConstructor // Jackson wants a no args constructor to function properly
 public class BeerEvent implements Serializable {
 
     static final long serialVersionUID = -791324981724981L;
 
-    private final BeerDto beerDto;
+    private BeerDto beerDto;
 }

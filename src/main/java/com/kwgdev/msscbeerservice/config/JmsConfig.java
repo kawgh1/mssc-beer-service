@@ -17,13 +17,17 @@ import java.awt.*;
 public class JmsConfig {
 
     public static final String BREWING_REQUEST_QUEUE = "brewing-request";
+    public static final String NEW_INVENTORY_QUEUE = "new-inventory";
 
     @Bean // Serialize message content to JSON using TextMessage
-    public MessageConverter jacksonJmsMessageConverter() {
+    public MessageConverter jacksonJmsMessageConverter(ObjectMapper objectMapper) {
 
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName("_type");
+        // if we don't set this Jackson/Spring Boot managed object mapper, it defaults to the object mapper from the BeerDto
+        // which uses java.time.OffsetDateTime - which is not what Jackson/JMS uses
+        converter.setObjectMapper(objectMapper);
         return converter;
     }
 }
