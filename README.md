@@ -167,8 +167,8 @@ Steps for Deconstruction into  Microservices
             - Just a message, no payload. Often used to notify about events.
         - #### BytesMessage
             - Payload is an array of bytes
-        - #### TextMessage
-            - Message is stored as a string (often JSON or XML)
+        - ### TextMessage
+            - ***Message is stored as a string (often JSON or XML)***
         - #### StreamMessage
             - sequence of Java primitives
         - #### MapMessage
