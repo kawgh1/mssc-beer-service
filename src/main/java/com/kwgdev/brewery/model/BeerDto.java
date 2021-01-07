@@ -1,11 +1,10 @@
-package com.kwgdev.msscbeerservice.web.model;
+package com.kwgdev.brewery.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;

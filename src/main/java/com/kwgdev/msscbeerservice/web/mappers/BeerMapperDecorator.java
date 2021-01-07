@@ -2,8 +2,9 @@ package com.kwgdev.msscbeerservice.web.mappers;
 
 import com.kwgdev.msscbeerservice.domain.Beer;
 import com.kwgdev.msscbeerservice.service.inventory.BeerInventoryService;
-import com.kwgdev.msscbeerservice.web.model.BeerDto;
+import com.kwgdev.brewery.model.BeerDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 
 /**
  * created by kw on 12/27/2020 @ 8:55 PM

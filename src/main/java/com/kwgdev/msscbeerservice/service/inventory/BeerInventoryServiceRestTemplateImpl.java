@@ -19,13 +19,13 @@ import java.util.UUID;
 /**
  * created by kw on 12/27/2020 @ 9:21 PM
  */
-@Profile("!local-discovery")
+
 @Slf4j
 @ConfigurationProperties(prefix = "sfg.brewery", ignoreUnknownFields = false)
 @Component
 public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryService {
 
-    public static final String INVENTORY_PATH = "/api/v1/beer/{beerId}/inventory";
+    private final String INVENTORY_PATH = "/api/v1/beer/{beerId}/inventory";
     private final RestTemplate restTemplate;
 
     // bind to sfg.brewery.beer-inventory-service-host=http://localhost:8082 - in application.properties

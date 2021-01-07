@@ -1,11 +1,9 @@
 package com.kwgdev.msscbeerservice.web.controller;
 
 import com.kwgdev.msscbeerservice.bootstrap.BeerLoader;
-import com.kwgdev.msscbeerservice.domain.Beer;
-import com.kwgdev.msscbeerservice.repositories.BeerRepository;
+import com.kwgdev.brewery.model.BeerDto;
+import com.kwgdev.brewery.model.BeerStyleEnum;
 import com.kwgdev.msscbeerservice.service.BeerService;
-import com.kwgdev.msscbeerservice.web.model.BeerDto;
-import com.kwgdev.msscbeerservice.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +24,16 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * created by kw on 12/11/2020 @ 2:27 PM
@@ -49,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // way to customize URI in your generated Spring REST Docs, different servers, etc.
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.springframework.guru", uriPort = 80)
 @WebMvcTest(BeerController.class)
-@ComponentScan(basePackages = "com.kwgdev.msscbeerservice.web.mappers")
+//@ComponentScan(basePackages = "com.kwgdev.msscbeerservice.web.mappers") unresolvable
 class BeerControllerTest {
 
     @Autowired
@@ -59,11 +55,11 @@ class BeerControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    BeerRepository beerRepository;
+    BeerService beerService;
 
     @Test
     void getBeerById() throws Exception {
-        given(beerRepository.findById(any())).willReturn(Optional.of(Beer.builder().build()));
+        given(beerService.getById(any(), anyBoolean())).willReturn(getValidBeerDto());
 
         mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
                 // Spring REST Docs query param

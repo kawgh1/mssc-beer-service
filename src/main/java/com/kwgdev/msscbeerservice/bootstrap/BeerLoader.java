@@ -1,7 +1,6 @@
 package com.kwgdev.msscbeerservice.bootstrap;
 
-import com.kwgdev.msscbeerservice.web.model.BeerStyleEnum;
-import lombok.Data;
+import com.kwgdev.brewery.model.BeerStyleEnum;
 
 import com.kwgdev.msscbeerservice.domain.Beer;
 import com.kwgdev.msscbeerservice.repositories.BeerRepository;

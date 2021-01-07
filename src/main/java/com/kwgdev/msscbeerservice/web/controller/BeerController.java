@@ -1,12 +1,11 @@
 package com.kwgdev.msscbeerservice.web.controller;
 
-import com.kwgdev.msscbeerservice.repositories.BeerRepository;
 import com.kwgdev.msscbeerservice.service.BeerService;
-import com.kwgdev.msscbeerservice.web.mappers.BeerMapper;
-import com.kwgdev.msscbeerservice.web.model.BeerDto;
-import com.kwgdev.msscbeerservice.web.model.BeerPagedList;
-import com.kwgdev.msscbeerservice.web.model.BeerStyleEnum;
+import com.kwgdev.brewery.model.BeerDto;
+import com.kwgdev.brewery.model.BeerPagedList;
+import com.kwgdev.brewery.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +25,7 @@ public class BeerController {
     private static final Integer DEFAULT_PAGE_NUMBER = 0;
     private static final Integer DEFAULT_PAGE_SIZE = 25;
 
+    @Autowired
     private final BeerService beerService;
 
     @GetMapping(produces = { "application/json" }, path = "beer")

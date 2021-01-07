@@ -2,7 +2,7 @@ package com.kwgdev.msscbeerservice.service.brewing;
 
 import com.kwgdev.msscbeerservice.config.JmsConfig;
 import com.kwgdev.msscbeerservice.domain.Beer;
-import com.kwgdev.common.events.BrewBeerEvent;
+import com.kwgdev.brewery.model.events.BrewBeerEvent;
 import com.kwgdev.msscbeerservice.web.mappers.BeerMapper;
 import com.kwgdev.msscbeerservice.repositories.BeerRepository;
 import com.kwgdev.msscbeerservice.service.inventory.BeerInventoryService;

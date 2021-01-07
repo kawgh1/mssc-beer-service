@@ -1,6 +1,6 @@
-package com.kwgdev.common.events;
+package com.kwgdev.brewery.model.events;
 
-import com.kwgdev.msscbeerservice.web.model.BeerDto;
+import com.kwgdev.brewery.model.BeerDto;
 import lombok.*;
 
 import java.io.Serializable;

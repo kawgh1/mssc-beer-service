@@ -2,9 +2,9 @@ package com.kwgdev.msscbeerservice.service.brewing;
 
 import com.kwgdev.msscbeerservice.config.JmsConfig;
 import com.kwgdev.msscbeerservice.domain.Beer;
-import com.kwgdev.common.events.BrewBeerEvent;
-import com.kwgdev.common.events.NewInventoryEvent;
-import com.kwgdev.msscbeerservice.web.model.BeerDto;
+import com.kwgdev.brewery.model.events.BrewBeerEvent;
+import com.kwgdev.brewery.model.events.NewInventoryEvent;
+import com.kwgdev.brewery.model.BeerDto;
 import com.kwgdev.msscbeerservice.repositories.BeerRepository;
 import org.springframework.jms.core.JmsTemplate;
 import lombok.RequiredArgsConstructor;

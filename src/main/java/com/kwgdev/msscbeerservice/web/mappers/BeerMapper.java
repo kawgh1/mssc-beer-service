@@ -1,7 +1,7 @@
 package com.kwgdev.msscbeerservice.web.mappers;
 
 import com.kwgdev.msscbeerservice.domain.Beer;
-import com.kwgdev.msscbeerservice.web.model.BeerDto;
+import com.kwgdev.brewery.model.BeerDto;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 
