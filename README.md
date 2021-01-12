@@ -30,14 +30,16 @@ CircleCI badge
 
 # MSSC Beer Service - Microservice
 
-Steps for Deconstruction into  Microservices
-1. Dependency Management
-2. (Local) MySQL Configuration
-3. JMS Messaging
-4. JMS with Microservices
-5. Spring State Machine
-6. Using Sagas with Spring
-7. Integration Testing Sagas
+## Steps for Deconstruction into  Microservices
+#### 1. Dependency Management
+#### 2. (Local) MySQL Configuration
+#### 3. JMS Messaging
+#### 4. JMS with Microservices
+#### 5. Spring State Machine
+#### 6. Using Sagas with Spring
+#### 7. Integration Testing Sagas
+#### 8. Compensating Transactions
+#### 9. Spring Cloud Gateway
 
 # [Contents](#contents)
 1. [Java Messaging Service (JMS)](#java-messaging-service-jms)
