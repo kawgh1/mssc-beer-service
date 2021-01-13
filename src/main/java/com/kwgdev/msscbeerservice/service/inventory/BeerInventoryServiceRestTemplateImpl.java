@@ -20,9 +20,9 @@ import java.util.UUID;
  * created by kw on 12/27/2020 @ 9:21 PM
  */
 
-@Profile("!local-discovery")
+
 @Slf4j
-@ConfigurationProperties(prefix = "sfg.brewery", ignoreUnknownFields = true)
+@ConfigurationProperties(prefix = "com.kwgdev.brewery", ignoreUnknownFields = false) //true
 @Component
 public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryService {
 
@@ -36,22 +36,35 @@ public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryServic
         this.beerInventoryServiceHost = beerInventoryServiceHost;
     }
 
-    public BeerInventoryServiceRestTemplateImpl(RestTemplateBuilder restTemplateBuilder,
-                                                @Value("${sfg.brewery.inventory-user}") String inventoryUser,
-                                                @Value("${sfg.brewery.inventory-password}")String inventoryPassword) {
-        this.restTemplate = restTemplateBuilder
-                .basicAuthentication(inventoryUser, inventoryPassword)
-                .build();
+//    public BeerInventoryServiceRestTemplateImpl(RestTemplateBuilder restTemplateBuilder,
+//                                                @Value("${com.kwgdev.brewery.inventory-user}") String inventoryUser,
+//                                                @Value("${com.kwgdev.brewery.inventory-password}")String inventoryPassword) {
+//        this.restTemplate = restTemplateBuilder
+//                .basicAuthentication(inventoryUser, inventoryPassword)
+//                .build();
+////    }
+//
+//        public BeerInventoryServiceRestTemplateImpl(RestTemplateBuilder restTemplateBuilder,
+//                                                @Value("beer_inventory_service") String inventoryUser,
+//                                                @Value("password")String inventoryPassword) {
+//        this.restTemplate = restTemplateBuilder
+//                .basicAuthentication(inventoryUser, inventoryPassword)
+//                .build();
+//    }
+
+    public BeerInventoryServiceRestTemplateImpl(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
     }
 
     @Override
     public Integer getOnhandInventory(UUID beerId) {
 
         log.debug("Calling Inventory Service");
+        System.out.println(beerInventoryServiceHost + INVENTORY_PATH);
 
         // this part binds the beer object into the URL {beerId} of "/api/v1/beer/{beerId}/inventory"
         ResponseEntity<List<BeerInventoryDto>> responseEntity = restTemplate
-                .exchange(beerInventoryServiceHost + INVENTORY_PATH, HttpMethod.GET, null,
+                .exchange(beerInventoryServiceHost + INVENTORY_PATH + "?showInventoryOnHand=true", HttpMethod.GET, null,
                         new ParameterizedTypeReference<List<BeerInventoryDto>>(){}, (Object) beerId);
 
         //sum from inventory list
