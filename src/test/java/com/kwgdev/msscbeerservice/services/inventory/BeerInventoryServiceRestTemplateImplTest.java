@@ -1,6 +1,5 @@
 package com.kwgdev.msscbeerservice.services.inventory;
 
-import com.kwgdev.msscbeerservice.bootstrap.BeerLoader;
 import com.kwgdev.msscbeerservice.service.inventory.BeerInventoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

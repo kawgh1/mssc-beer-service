@@ -14,27 +14,27 @@ import java.util.UUID;
 /**
  * created by kw on 12/27/2020 @ 9:05 PM
  */
-//@Slf4j
-//@RequiredArgsConstructor
-//@Profile("local-discovery")
-//@Service
-//public class BeerInventoryServiceFeign implements BeerInventoryService {
-//
-//    //private final InventoryServiceFeignClient inventoryServiceFeignClient;
-//
-//    @Override
-//    public Integer getOnhandInventory(UUID beerId) {
-//        log.debug("Calling Inventory Service - BeerId: " + beerId);
-//
-//        ResponseEntity<List<BeerInventoryDto>> responseEntity = inventoryServiceFeignClient.getOnhandInventory(beerId);
-//
-//        Integer onHand = Objects.requireNonNull(responseEntity.getBody())
-//                .stream()
-//                .mapToInt(BeerInventoryDto::getQuantityOnHand)
-//                .sum();
-//
-//        log.debug("BeerId: " + beerId + " On hand is: " + onHand);
-//
-//        return onHand;
-//    }
-//}
+@Slf4j
+@RequiredArgsConstructor
+@Profile("local-discovery")
+@Service
+public class BeerInventoryServiceFeign implements BeerInventoryService {
+
+    private final InventoryServiceFeignClient inventoryServiceFeignClient;
+
+    @Override
+    public Integer getOnhandInventory(UUID beerId) {
+        log.debug("Calling Inventory Service - BeerId: " + beerId);
+
+        ResponseEntity<List<BeerInventoryDto>> responseEntity = inventoryServiceFeignClient.getOnhandInventory(beerId);
+
+        Integer onHand = Objects.requireNonNull(responseEntity.getBody())
+                .stream()
+                .mapToInt(BeerInventoryDto::getQuantityOnHand)
+                .sum();
+
+        log.debug("BeerId: " + beerId + " On hand is: " + onHand);
+
+        return onHand;
+    }
+}
