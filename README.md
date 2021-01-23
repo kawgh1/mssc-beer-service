@@ -32,6 +32,7 @@ Beer object example:
 | [Brewery Beer Service](https://github.com/kawgh1/mssc-beer-service) | 8080 |
 | [Brewery Beer Order Service](https://github.com/kawgh1/mssc-beer-order-service) | 8081 |
 | [Brewery Beer Inventory Service](https://github.com/kawgh1/mssc-beer-inventory-service) | 8082 |
+| [Inventory Failover Service](https://github.com/kawgh1/mssc-inventory-failover) | 8083 |
 
 CircleCI badge 
    - [![CircleCI](https://circleci.com/gh/kawgh1/mssc-beer-service.svg?style=svg)](https://circleci.com/gh/kawgh1/mssc-beer-service)
@@ -51,6 +52,8 @@ CircleCI badge
 #### 10. Service Registration
 #### 11. Service Discovery
 #### 12. Circuit Breaker
+#### 13. Spring Cloud Config
+#### 14. Distributed Tracing
 
 # [Contents](#contents)
 1. [Java Messaging Service (JMS)](#java-messaging-service-jms)
