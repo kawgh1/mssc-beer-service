@@ -38,7 +38,7 @@ public class BrewingService {
             log.debug("Inventory is: "  + invQOH);
 
             // if beer minimum >- Inventory Quantity on Hand - send message to brew more beer!!
-            if(beer.getMinOnHand() >= invQOH) {
+            if(beer.getMinOnHand() >= invQOH){
                 jmsTemplate.convertAndSend(JmsConfig.BREWING_REQUEST_QUEUE, new BrewBeerEvent(beerMapper.beerToBeerDto(beer)));
             }
 

@@ -57,7 +57,7 @@ public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryServic
 
         // this part binds the beer object into the URL {beerId} of "/api/v1/beer/{beerId}/inventory"
         ResponseEntity<List<BeerInventoryDto>> responseEntity = restTemplate
-                .exchange(beerInventoryServiceHost + INVENTORY_PATH + "?showInventoryOnHand=true", HttpMethod.GET, null,
+                .exchange(beerInventoryServiceHost + INVENTORY_PATH, HttpMethod.GET, null,
                         new ParameterizedTypeReference<List<BeerInventoryDto>>(){}, (Object) beerId);
 
         //sum from inventory list
@@ -69,6 +69,7 @@ public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryServic
                 // add that all together
                 .sum();
 
+       log.debug("Inventory is -> " + onHand);
         return onHand;
     }
 }

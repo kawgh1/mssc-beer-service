@@ -17,7 +17,7 @@ import java.util.UUID;
 // The way the FeignClient works is a lot like  Spring Data JPA
 // we provide the interface and decorate it with some annotations and then at runtime Spring will provide an implementation for us
 
-@FeignClient(name = "inventory-service")
+@FeignClient(name = "inventory-service", fallback = InventoryServiceFeignClientFailover.class)
 public interface InventoryServiceFeignClient {
 
     @RequestMapping(method = RequestMethod.GET, value = BeerInventoryServiceRestTemplateImpl.INVENTORY_PATH)
