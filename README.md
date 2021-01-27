@@ -56,12 +56,92 @@ CircleCI badge
 #### 14. Distributed Tracing
 
 # [Contents](#contents)
-1. [Java Messaging Service (JMS)](#java-messaging-service-jms)
-2. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
-3. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
-4. [Ehcache](#ehcache)
-5. [Spring MVC REST Docs](#spring-mvc-rest-docs)
+1. [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth)
+2. [Java Messaging Service (JMS)](#java-messaging-service-jms)
+3. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
+4. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
+5. [Ehcache](#ehcache)
+6. [Spring MVC REST Docs](#spring-mvc-rest-docs)
 
+### [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth)
+- Distributed Tracing Overview
+
+	- Allows us to see data and process flows as they go through the service
+	- Ex.) We get a request that comes in through the Gateway, going to Service A, Service B, maybe Service C
+		and then get a response.
+	- Dstributing Tracing allows you to "see" this flow through the system.
+	- This is important because if there's a known or unknown failure anywhere in a request path,
+		this allows you to isolate the problem quickly and visualize the chain of events leading to that failure.
+
+- What is Distributing Tracing?
+	- Monoliths have luxury of being self-contained, thus tracing typically is not needed.
+	- Reminder: a simple search request on Amazon is going to span potentially hundreds of
+	microservices to return results - many algorithms, inventory, rating, purchase history, seasonal promotions, etc.
+	- Transactions in microservices can span across many services / instances and even multiple data centers
+	- Distributed Tracing provides the tools to trace a transaction across services and nodes
+	- Distributed Tracing is used primarily for two aspects:
+		- Perofrmance monitoring across steps
+		- Logging / Troubleshotting
+
+- Spring Cloud Sleuth
+	- Spring Cloud Sleuth is the distributed tracing tool for Spring Cloud
+	- Spring Cloud Sleuth uses an open source distributed tracing library called "Brave"
+	- Conceptually what happens:
+		- Headers on HTTP requests or messages are enhanced with trace data
+		- Logging is enhanced with trace data
+		- Optionally trace data can be reported to Zipkin (tracing server)
+
+- Tracing Terminology
+	- Spring Cloud Sleuth uses terminology established by Dapper
+		- Dapper is a distributed tracing system created by Google for their production systems
+	- **Span** - is a basic unit of work. Typically a send and receive of a message
+	- **Trace** - A set of spans for a transaction
+	- **CS/SR** - Client Sent / Sender Received - aka the request
+	- **SS/CR** - Sender Sent / Client Received - aka the response
+
+- Zipkin Server
+	- Zipkin is an open source project used to report distributed tracing metrics
+	- Information can be reported to Zipkin via webservices via HTTP
+		- Optionally metrics can be provided via Kafka or Rabbit
+	- Zipkin is a Spring MVC project
+		- Recommended to use binary distribution or Docker image
+		- Building your own is not supported
+	- Uses in-memory database for development
+		- Cassandra or Elasticsearch should be used for production for data persistence
+
+- Zipkin Quickstart
+	- https://zipkin.io/pages/quickstart.html
+	- via Curl:
+		curl -sSL https://zipkin.io/quickstart.sh | bash -s
+		java -jar zipkin.jar
+	- via Docker (Recommended):
+		docker run -d -p 9411:9411 openzipkin/zipkin
+	- View traces in UI at:
+		- http://localhost:9411/zipkin/
+
+- Installing Spring Cloud Sleuth
+
+	- org.springframework.cloud : spring-cloud-start-sleuth
+		- Starter for logging only
+	- org.springframework.cloud : spring-cloud-starter-zipkin
+		- Start for Sleuth with Zipkin - includes Sleuth dependencies
+	- Property **spring.zipkin.baseUrl** is used to configure Zipkin server
+
+- Logging Output Spring Cloud Sleuth
+	- **Example: - DEBUG [beer-service, 354as6d8f76, 57a4sdfa54, true]**
+		- **[Appname, TraceId, SpanId, exportable]**
+	- Appname - Spring Boot Application Name
+	- TraceId - Id value of the trace
+	- SpanId - Id of the span
+	- Exportable - Should span be exported to Zipkin? (Programmatic configuration option)
+
+- Loggin Configuration
+	- Microservices will typically use consolidated logging
+	- Number of different approaches for this - highly dependent on deployment environment
+	- To supposed consolidated logging, log data should be available in JSON
+	- Spring Boot by default uses logback, which is easy to configure for JSON output
+	
+[Top](#contents)
 
 ### [Java Messaging Service (JMS)](#java-messaging-service-jms)
 - What is JMS?

@@ -35,6 +35,11 @@
 
 
     <dependencies>
+<!--        Spring Cloud Sleuth / Zipkin - Distributed Tracing localhost:9411-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
         <!-- JMS -->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
