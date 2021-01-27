@@ -40,6 +40,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
+        <!--        sleuth / zipkin logging trace see resources/logback-spring.xml-->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>6.3</version>
+        </dependency>
         <!-- JMS -->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->

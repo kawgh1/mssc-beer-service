@@ -56,14 +56,14 @@ CircleCI badge
 #### 14. Distributed Tracing
 
 # [Contents](#contents)
-1. [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth)
+1. [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
 2. [Java Messaging Service (JMS)](#java-messaging-service-jms)
 3. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
 4. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
 5. [Ehcache](#ehcache)
 6. [Spring MVC REST Docs](#spring-mvc-rest-docs)
 
-### [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth)
+### [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
 - Distributed Tracing Overview
 
 	- Allows us to see data and process flows as they go through the service
