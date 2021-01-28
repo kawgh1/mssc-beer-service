@@ -32,6 +32,7 @@ public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryServic
     // bind to sfg.brewery.beer-inventory-service-host=http://localhost:8082 - in application.properties
     private String beerInventoryServiceHost;
 
+
     public void setBeerInventoryServiceHost(String beerInventoryServiceHost) {
         this.beerInventoryServiceHost = beerInventoryServiceHost;
     }

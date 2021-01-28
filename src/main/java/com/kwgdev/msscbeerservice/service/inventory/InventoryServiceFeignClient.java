@@ -1,5 +1,6 @@
 package com.kwgdev.msscbeerservice.service.inventory;
 
+import com.kwgdev.msscbeerservice.config.FeignClientConfig;
 import com.kwgdev.msscbeerservice.service.inventory.model.BeerInventoryDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,9 @@ import java.util.UUID;
 // The way the FeignClient works is a lot like  Spring Data JPA
 // we provide the interface and decorate it with some annotations and then at runtime Spring will provide an implementation for us
 
-@FeignClient(name = "inventory-service", fallback = InventoryServiceFeignClientFailover.class)
+@FeignClient(name = "inventory-service", fallback = InventoryServiceFeignClientFailover.class, configuration = FeignClientConfig.class)
 public interface InventoryServiceFeignClient {
 
-    @RequestMapping(method = RequestMethod.GET, value = {BeerInventoryServiceRestTemplateImpl.INVENTORY_PATH + "?showInventoryOnHand=true"})
+    @RequestMapping(method = RequestMethod.GET, value = BeerInventoryServiceRestTemplateImpl.INVENTORY_PATH)
     ResponseEntity<List<BeerInventoryDto>> getOnhandInventory(@PathVariable UUID beerId);
 }
