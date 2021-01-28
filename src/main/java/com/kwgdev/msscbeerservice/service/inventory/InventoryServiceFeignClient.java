@@ -20,6 +20,6 @@ import java.util.UUID;
 @FeignClient(name = "inventory-service", fallback = InventoryServiceFeignClientFailover.class)
 public interface InventoryServiceFeignClient {
 
-    @RequestMapping(method = RequestMethod.GET, value = BeerInventoryServiceRestTemplateImpl.INVENTORY_PATH)
+    @RequestMapping(method = RequestMethod.GET, value = {BeerInventoryServiceRestTemplateImpl.INVENTORY_PATH + "?showInventoryOnHand=true"})
     ResponseEntity<List<BeerInventoryDto>> getOnhandInventory(@PathVariable UUID beerId);
 }

@@ -54,6 +54,9 @@ CircleCI badge
 #### 12. Circuit Breaker
 #### 13. Spring Cloud Config
 #### 14. Distributed Tracing
+#### 15. Securing Spring Cloud
+#### 16. Building Docker Images
+#### 17. Docker Compose
 
 # [Contents](#contents)
 1. [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
