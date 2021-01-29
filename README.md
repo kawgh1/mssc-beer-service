@@ -235,7 +235,31 @@ CircleCI badge
               </settings>
 		
 - Running Docker build in IntelliJ
+    - first run maven clean, maven package
     - Under Maven/ {application} / Plugins / docker / docker:build to build a local image on the computer
+     - to push to DockerHub using Maven
+            - before pushing, remember to log out, then log in from the command line to your docker hub account
+            - # you may need log out first `docker logout` ref. https://stackoverflow.com/a/53835882/248616
+              docker login
+              
+              According to the docs:
+              
+              You need to include the namespace for Docker Hub to associate it with your account.
+              The namespace is the same as your Docker Hub account name.
+              You need to rename the image to YOUR_DOCKERHUB_NAME/docker-whale.
+              
+              So, this means you have to tag your image before pushing:
+              
+              docker tag firstimage YOUR_DOCKERHUB_NAME/firstimage
+              
+              and then you should be able to push it.
+              
+              docker push YOUR_DOCKERHUB_NAME/firstimage
+
+            - mvn clean package docker:build docker:push
+     - need to push each server/microservice up to DockerHub
+          - Docker interview with John Thompson and James Labocki of Redhat on Docker
+          - https://www.udemy.com/course/spring-boot-microservices-with-spring-cloud-beginner-to-guru/learn/lecture/20118108#questions
 [Top](#contents)
 	
 
