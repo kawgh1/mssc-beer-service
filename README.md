@@ -60,11 +60,12 @@ CircleCI badge
 
 # [Contents](#contents)
 1. [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
-2. [Java Messaging Service (JMS)](#java-messaging-service-jms)
-3. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
-4. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
-5. [Ehcache](#ehcache)
-6. [Spring MVC REST Docs](#spring-mvc-rest-docs)
+2. [Docker](#docker)
+3. [Java Messaging Service (JMS)](#java-messaging-service-jms)
+4. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
+5. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
+6. [Ehcache](#ehcache)
+7. [Spring MVC REST Docs](#spring-mvc-rest-docs)
 
 ### [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
 - Distributed Tracing Overview
@@ -145,6 +146,98 @@ CircleCI badge
 	- Spring Boot by default uses logback, which is easy to configure for JSON output
 	
 [Top](#contents)
+
+### [Docker](#docker)
+- JVM Resource Limits
+	- Java 11 or higher is recommended
+	- Earlier versions of Java did not recognize limits on memory and CPUs of a container
+		- Java would see system memory, not the container
+		- Docker will terminate a container when resource limits are exceeded
+		- Difficult to troubleshoot
+		- ex.) you're running your container and all of a sudden it crashes 
+			- you might spend hours debugging the container/program when it's Java itself
+
+- Docker Host Considerations
+	- Running multiple Docker contaienrs on a host can be resource intensive
+	- Can also consume a lot of disk space on host system
+	- Recommendations:
+		- Use 'slim' base images - you don't need a full featured linux OS for Java runtime
+		- Be aware of build layers as you build images
+			- A host system only needs one copy of a layer
+			- ex.) you have 12 microservices and 5 layers, but the first 4 layers are all shared by the 12 microservices
+				- so you only need 1 of each of the first 4 layers - not 12 x 4 = 48 layers
+
+- Which Base Image?
+	- Highly debated and opinionated in Java Community
+	- We will be using OpenJDK Slim - appropriate for ~95% of applications
+	- Opionated options are from Fabric8 are a good choice
+	- Azul Systems published curated JVM Docker images, good choice for commercial applications
+	- For security and compliance, companies might want to build their own base image
+
+- Building Docker Images with Maven
+	- Maven can be configured to build and work with Docker images
+	- Capability is done with Maven plugins
+	- Several very good options available
+	- Will be using Fabric8's Maven Docker Plugin (pronounce 'fabricate')
+		- Very versatile plugin w/ rich capabilities - only using for build
+		- Fabric8 is a DevOps platofrm for Kubernetes and Openshit - worth becoming more familiar with
+			- This Maven Docker Plugin is 1 tool of many in that platform
+
+- Docker Integration Under the Hood
+	- The Docker Maven Plugins work with Docker installed on your system
+		- Generally, will autodetect the Docker daemon
+		- This can be different depending on OS
+	- If Fabric8 cannot connect to Docker you may need to configure the plugin
+		- Under the Maven POM properties element:
+			- Set property **'docker.host'** for your OS
+			- Difficulties with versions of Windows older than Windows 10
+
+- Building Docker Images with Maven
+	- For microservices using common BOM
+		- Fabric8 is configured in parent
+		- Each service will need a Dockerfile in /src/main/docker
+	- For microservices **NOT** using common BOM
+		- Fabric8 will need to be configured in Build element of Maven POM
+		- Each service will need a Dockerfile in /src/main/docker
+
+- Spring Boot Layered Builds
+	- Common best practice
+	- Layered builds is a new feature with Spring Boot 2.3.0
+		- [https://springframework.guru/why-you-should-be-using-spring-boot-docker-layers/](#https://springframework.guru/why-you-should-be-using-spring-boot-docker-layers/)
+	- We will be configuring our builds to perform layered builds
+	- Services using BOM need to use 1.0.17 or higher
+	- Services not using BOM need to use Spring Boot 2.3.0 or higher
+
+- Publishing to Docker Hub
+	- If you've created a Docker Hub account and wish to publish to your own account:
+		- Configure server credentials in settings.xml (User home dir/.m2)
+		- In servers element, add server with id of 'docker.io'
+		- add your username and password to respective elements
+		- https://www.udemy.com/course/spring-boot-microservices-with-spring-cloud-beginner-to-guru/learn/lecture/20071480#questions/11674030
+		- Depends what OS you are using.
+          
+          Unix/Mac OS X – ~/. m2/repository.
+          
+          Windows – C:\Users\{your-username}\. m2\repository.
+          
+          
+          Create a settings.xml file if one does not exist and add
+          
+              <?xml version="1.0" encoding="UTF-8"?>
+              <settings>
+              <servers>
+                  <server>
+                      <id>registry.hub.docker.com</id>
+                      <username><DockerHub Username></username>
+                      <password><DockerHub Password></password>
+                  </server>
+              </servers>
+              </settings>
+		
+- Running Docker build in IntelliJ
+    - Under Maven/ {application} / Plugins / docker / docker:build to build a local image on the computer
+[Top](#contents)
+	
 
 ### [Java Messaging Service (JMS)](#java-messaging-service-jms)
 - What is JMS?

@@ -57,68 +57,90 @@ class BeerControllerTest {
 
     @Test
     void getBeerById() throws Exception {
+//        given(beerService.getById(any(), anyBoolean())).willReturn(getValidBeerDto());
+//
+//        mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
+//                // Spring REST Docs query param
+//                .param("iscold", "yes")
+//
+//
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//
+//                // Spring REST Docs
+//                .andDo(document("v1/beer-get", pathParameters(
+//                        parameterWithName("beerId").description("UUID of desired beer to get.")
+//                        ),
+//                        requestParameters(
+//                                parameterWithName("iscold").description("Is Beer Cold Query param")
+//                        ),
+//                        responseFields(
+//                                fieldWithPath("id").description("ID of Beer"),
+//                                fieldWithPath("version").description("Version number"),
+//                                fieldWithPath("createdDate").description("Date Created"),
+//                                fieldWithPath("lastModifiedDate").description("Date Updated"),
+//                                fieldWithPath("beerName").description("Beer Name"),
+//                                fieldWithPath("beerStyle").description("Beer Style"),
+//                                fieldWithPath("upc").description("Beer UPC"),
+//                                fieldWithPath("price").description("Beer Price"),
+//                                fieldWithPath("quantityOnHand").description("Beer Quantity on Hand")
+//
+//                        )));
         given(beerService.getById(any(), anyBoolean())).willReturn(getValidBeerDto());
 
-        mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
-                // Spring REST Docs query param
-                .param("iscold", "yes")
-
-
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-
-                // Spring REST Docs
-                .andDo(document("v1/beer-get", pathParameters(
-                        parameterWithName("beerId").description("UUID of desired beer to get.")
-                        ),
-                        requestParameters(
-                                parameterWithName("iscold").description("Is Beer Cold Query param")
-                        ),
-                        responseFields(
-                                fieldWithPath("id").description("ID of Beer"),
-                                fieldWithPath("version").description("Version number"),
-                                fieldWithPath("createdDate").description("Date Created"),
-                                fieldWithPath("lastModifiedDate").description("Date Updated"),
-                                fieldWithPath("beerName").description("Beer Name"),
-                                fieldWithPath("beerStyle").description("Beer Style"),
-                                fieldWithPath("upc").description("Beer UPC"),
-                                fieldWithPath("price").description("Beer Price"),
-                                fieldWithPath("quantityOnHand").description("Beer Quantity on Hand")
-
-                        )));
+        mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
     void saveNewBeer() throws Exception {
-        BeerDto beerDto =  getValidBeerDto();
-        String beerDtoJson = objectMapper.writeValueAsString(beerDto);
+//        BeerDto beerDto =  getValidBeerDto();
+//        String beerDtoJson = objectMapper.writeValueAsString(beerDto);
+//
+//        // ConstrainedFields
+//        ConstrainedFields fields = new ConstrainedFields(BeerDto.class);
+//
+//        mockMvc.perform(post("/api/v1/beer/")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(beerDtoJson))
+//                .andExpect(status().isCreated())
+//
+//                // Spring REST Docs
+//                .andDo(document("v1/beer-new",
+//                        requestFields(
+//                                fields.withPath("id").ignored(),
+//                                fields.withPath("version").ignored(),
+//                                fields.withPath("createdDate").ignored(),
+//                                fields.withPath("lastModifiedDate").ignored(),
+//                                fields.withPath("beerName").description("Name of the beer"),
+//                                fields.withPath("beerStyle").description("Style of Beer"),
+//                                fields.withPath("upc").description("Beer UPC").attributes(),
+//                                fields.withPath("price").description("Beer price"),
+//                                fields.withPath("quantityOnHand").ignored()
+//                        )));
+            BeerDto beerDto = getValidBeerDto();
+            String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
-        // ConstrainedFields
-        ConstrainedFields fields = new ConstrainedFields(BeerDto.class);
+            given(beerService.saveNewBeer(any())).willReturn(getValidBeerDto());
 
-        mockMvc.perform(post("/api/v1/beer/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(beerDtoJson))
-                .andExpect(status().isCreated())
-
-                // Spring REST Docs
-                .andDo(document("v1/beer-new",
-                        requestFields(
-                                fields.withPath("id").ignored(),
-                                fields.withPath("version").ignored(),
-                                fields.withPath("createdDate").ignored(),
-                                fields.withPath("lastModifiedDate").ignored(),
-                                fields.withPath("beerName").description("Name of the beer"),
-                                fields.withPath("beerStyle").description("Style of Beer"),
-                                fields.withPath("upc").description("Beer UPC").attributes(),
-                                fields.withPath("price").description("Beer price"),
-                                fields.withPath("quantityOnHand").ignored()
-                        )));
+            mockMvc.perform(post("/api/v1/beer/")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(beerDtoJson))
+                    .andExpect(status().isCreated());
     }
 
     @Test
     void updateBeerById() throws Exception {
-        BeerDto beerDto =  getValidBeerDto();
+//        BeerDto beerDto =  getValidBeerDto();
+//        String beerDtoJson = objectMapper.writeValueAsString(beerDto);
+//
+//        mockMvc.perform(put("/api/v1/beer/" + UUID.randomUUID().toString())
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(beerDtoJson))
+//                .andExpect(status().isNoContent());
+        given(beerService.updateBeer(any(), any())).willReturn(getValidBeerDto());
+
+        BeerDto beerDto = getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
         mockMvc.perform(put("/api/v1/beer/" + UUID.randomUUID().toString())
