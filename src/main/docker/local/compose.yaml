@@ -27,7 +27,7 @@ services:
             EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
 
 
-    inventory:
+    inventory-service:
       image: krseven/mssc-beer-inventory-service
       ports:
         - 8082:8082
@@ -36,8 +36,7 @@ services:
         - config
         - jms
       environment:
-        SPRING_PROFILES_ACTIVE: local-discovery,localmysql
-        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+        SPRING_PROFILES_ACTIVE: local-discovery, localmysql
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
         SPRING_ZIPKIN_BASEURL: http://zipkin:9411
         SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerinventoryservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
@@ -66,11 +65,10 @@ services:
       depends_on:
         - eureka
         - config
-        - inventory
+        - inventory-service
         - jms
       environment:
-        SPRING_PROFILES_ACTIVE: local-discovery,localmysql
-        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+        SPRING_PROFILES_ACTIVE: local-discovery, localmysql
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
         EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
         SPRING_ZIPKIN_BASEURL: http://zipkin:9411
@@ -89,8 +87,7 @@ services:
         - beer-service
         - jms
       environment:
-        SPRING_PROFILES_ACTIVE: local-discovery,localmysql
-        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+        SPRING_PROFILES_ACTIVE: local-discovery, localmysql
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
         EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
         SPRING_ZIPKIN_BASEURL: http://zipkin:9411
@@ -107,7 +104,7 @@ services:
       depends_on:
         - eureka
         - config
-        - inventory
+        - inventory-service
         - beer-service
         - order-service
         - inventory-failover
