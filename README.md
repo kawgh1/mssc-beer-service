@@ -1,8 +1,8 @@
 ##### Part of John Thompson's Microservices course
 
-# For microservices to use JMS Messaging on localhost, Docker must be installed and localhost must be connected to an ActiveMQ Server
+### For microservices to use JMS Messaging on localhost, Docker must be installed and localhost must be connected to an ActiveMQ Server
 [https://github.com/vromero/activemq-artemis-docker](https://github.com/vromero/activemq-artemis-docker)
-### defaults for this docker image - github.com/vromero/activemq-artemis
+#### defaults for this docker image - github.com/vromero/activemq-artemis
 spring.artemis.user=artemis
 spring.artemis.password=simetraehcapa
 
@@ -40,25 +40,28 @@ CircleCI badge
 # MSSC Beer Service - Microservice
 
 ## Steps for Deconstruction into  Microservices
-#### 1. Dependency Management
-#### 2. (Local) MySQL Configuration
-#### 3. JMS Messaging
-#### 4. JMS with Microservices
-#### 5. Spring State Machine
-#### 6. Using Sagas with Spring
-#### 7. Integration Testing Sagas
-#### 8. Compensating Transactions
-#### 9. Spring Cloud Gateway
-#### 10. Service Registration
-#### 11. Service Discovery
-#### 12. Circuit Breaker
-#### 13. Spring Cloud Config
-#### 14. Distributed Tracing
-#### 15. Securing Spring Cloud
-#### 16. Building Docker Images
-#### 17. Docker Compose
-
+**1. Dependency Management**  
+**2. (Local) MySQL Configuration**  
+**3. JMS Messaging**  
+**4. JMS with Microservices**  
+**5. Spring State Machine**  
+**6. Using Sagas with Spring**  
+**7. Integration Testing Sagas**  
+**8. Compensating Transactions**  
+**9. Spring Cloud Gateway**  
+**10. Service Registration**  
+**11. Service Discovery**  
+**12. Circuit Breaker**  
+**13. Spring Cloud Config**  
+**14. Distributed Tracing**  
+**15. Securing Spring Cloud**  
+**16. Building Docker Images**  
+**17. Docker Compose**  
+**18. Consolidated Logging**  
+**19. Docker Swarm**  
+  
 # [Contents](#contents)
+1. [Consolidated Logging (ELK Stack)](#condolidated-logging-elk-stack)
 1. [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
 2. [Docker](#docker)
 3. [Java Messaging Service (JMS)](#java-messaging-service-jms)
@@ -66,6 +69,50 @@ CircleCI badge
 5. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
 6. [Ehcache](#ehcache)
 7. [Spring MVC REST Docs](#spring-mvc-rest-docs)
+  
+  
+  ### [Consolidated Logging (ELK Stack)](#consolidated-logging-elk-stack)
+    
+   ![elk stack diagram](https://raw.githubusercontent.com/kawgh1/kwg-microservices-brewery/master/server-images/ELK-Stack-diagram.png)
+  
+  #### - E - Elasticsearch
+  #### - L - Logstash
+  #### - K - Kibana
+    
+    
+  - All products open source, supported by company called elastic
+  - **Elasticsearch**
+      - JSON based search engine based on Lucene
+          - Highly scalable - 100s of nodes (cloud scale)
+  - **Logstash**
+      - Data processing pipeline for log data
+      - Similar to ETL tool "Extract-Transform-Load"
+          - Allows to:
+              - Collect log data from multiple sources
+              - Transform that log data
+              - Send log data to Elasticsearch
+              
+  - **Kibana**
+      - Data visualization fool for Elasticsearch
+      - Can query data and act as a dashboard
+      - Can also create charts, graphs and alerts
+          - Many many more features
+          
+  - FileBeat
+      - FileBeat is the log shipper
+      - Moves log data from a client machine to a destination
+      - Often destination is a **logstash server**
+          - Logstash is used for further transformation before sending to Elasticsearch
+          
+  - ELK Without Logstash
+      - Filebeat has ability to do ***some*** transformations
+      - Thus, possible to skip Logstash and write directly to Elasticsearch
+      - Previously we setup JSON log output
+      - Filebeat can convert JSON logs to JSON objects for Elasticsearch
+      
+    
+  [Top](#top)
+    
 
 ### [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
 - Distributed Tracing Overview
