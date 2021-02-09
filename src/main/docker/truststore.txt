@@ -1,0 +1,3 @@
+Truststore place holder
+
+See project demo and course for details

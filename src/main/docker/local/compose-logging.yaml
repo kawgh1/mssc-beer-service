@@ -1,0 +1,162 @@
+version: '3.8'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    ports:
+      - 9200:9200
+    environment:
+      discovery.type: single-node
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.7.0
+    ports:
+      - 5601:5601
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.7.0
+#    Was getting this error:
+#    Exiting: error loading config file: config file ("filebeat.yml") can only be writable by the owner
+#    but the permissions are "-rwxrwxrwx" (to fix the permissions use: 'chmod go-w /usr/share/filebeat/filebeat.yml')
+#    https://stackoverflow.com/questions/44926280/volume-mapped-filebeat-yml-permissions-from-docker-on-a-windows-host
+    entrypoint: filebeat -e -strict.perms=false
+    volumes:
+      - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro # Configuration file ":ro" is read only mount
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro           # Docker logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro                       # Additional information about containers
+    user: root                                                             # Allow access to log files and docker.sock
+    restart: on-failure
+
+  jms:
+    image: vromero/activemq-artemis
+    ports:
+      - 8161:8161
+      - 61616:61616
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
+
+  eureka:
+    image: krseven/brewery-eureka-server
+    ports:
+      - 8761:8761
+
+  config:
+    image: krseven/mssc-spring-cloud-config-server
+    ports:
+      - 8888:8888
+    depends_on:
+      - eureka
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+
+  inventory-service:
+    image: krseven/mssc-beer-inventory-service
+    ports:
+      - 8082:8082
+    depends_on:
+      - eureka
+      - config
+      - jms
+    environment:
+      SPRING_PROFILES_ACTIVE: local-discovery, localmysql
+      SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerinventoryservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      SPRING_ARTEMIS_HOST: jms
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+    restart: on-failure
+#    docker labels for logging to elasticsearch
+    labels:
+      collect_logs_with_filebeat: "true"
+      #      tells docker/elasticsearch for these logs we want to decode them to JSON, giving us the ability to index and search on them
+      decode_log_event_to_json_object: "true"
+
+  inventory-failover:
+    image: sfgbeerworks/sfg-brewery-inventory-failover
+    ports:
+      - 8083:8083
+    depends_on:
+      - eureka
+      - config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+
+  beer-service:
+    image: krseven/mssc-beer-service
+    ports:
+      - 8080:8080
+    depends_on:
+      - eureka
+      - config
+      - inventory-service
+      - jms
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: local-discovery, localmysql
+      SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      SPRING_ARTEMIS_HOST: jms
+#    docker labels for logging to elasticsearch
+    labels:
+      collect_logs_with_filebeat: "true"
+      #      tells docker/elasticsearch for these logs we want to decode them to JSON, giving us the ability to index and search on them
+      decode_log_event_to_json_object: "true"
+
+  order-service:
+    image: krseven/mssc-beer-order-service
+    ports:
+      - 8081:8081
+    depends_on:
+      - eureka
+      - config
+      - beer-service
+      - jms
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: local-discovery, localmysql
+      SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerorderservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      SPRING_ARTEMIS_HOST: jms
+      SFG_BREWERY_BEER-SERVICE-HOST: http://beer-service:8080
+#    docker labels for logging to elasticsearch
+    labels:
+      collect_logs_with_filebeat: "true"
+#      tells docker/elasticsearch for these logs we want to decode them to JSON, giving us the ability to index and search on them
+      decode_log_event_to_json_object: "true"
+
+  gateway:
+    image: krseven/mssc-brewery-gateway
+    ports:
+      - 9090:9090
+    depends_on:
+      - eureka
+      - config
+      - inventory-service
+      - beer-service
+      - order-service
+      - inventory-failover
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: local-discovery
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411
+#    docker labels for logging to elasticsearch
+    labels:
+      collect_logs_with_filebeat: "true"
+      #      tells docker/elasticsearch for these logs we want to decode them to JSON, giving us the ability to index and search on them
+      decode_log_event_to_json_object: "true"

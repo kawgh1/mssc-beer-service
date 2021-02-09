@@ -61,15 +61,75 @@ CircleCI badge
 **19. Docker Swarm**  
   
 # [Contents](#contents)
-1. [Consolidated Logging (ELK Stack)](#condolidated-logging-elk-stack)
-1. [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
-2. [Docker](#docker)
-3. [Java Messaging Service (JMS)](#java-messaging-service-jms)
-4. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
-5. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
-6. [Ehcache](#ehcache)
-7. [Spring MVC REST Docs](#spring-mvc-rest-docs)
+1. [Docker Swarm](#docker-swarm)
+2. [Consolidated Logging (ELK Stack)](#condolidated-logging-elk-stack)
+3. [Spring Cloud Sleuth (Zipkin)](#spring-cloud-sleuth-zipkin)
+4. [Docker](#docker)
+5. [Java Messaging Service (JMS)](#java-messaging-service-jms)
+6. [Data Source(MySQL) Connection Pooling](#data-sourcemysql-connection-pooling)
+7. [HikariCP with Spring Boot 2.x](#hikaricp-with-spring-boot-2x)
+8. [Ehcache](#ehcache)
+9. [Spring MVC REST Docs](#spring-mvc-rest-docs)
   
+  
+### [Docker Swarm](#docker-swarm)
+
+- Deployment Design
+
+- Containerized Deployment
+	- Microservices are well suited for containerized deployment
+	- Typically are compute only, and do not persist data in instance
+	- Scalability and reliability achieved with multiple instances
+	- Deployments managed via container orchestration
+		- Docker Swarm is among the simplest - uses extensions in Docker Compose
+	- Other more robust solutions include Kubernetes, OpenShift, Mesos, AWS ECS
+		- Large and evolving area
+
+	- Databases persisting data typically are poor candidates for containerized deployments
+		- Becomes a problem in managing disk storage
+		- While it can be done, typically not the optimal solution
+		- Often you will see dedicated VMs or physical servers for databases
+			- Nothing faster than physical servers
+		- This extends to any database like application (best on physical server)
+			- JMS or other ActiveMQ message brokers, Elasticsearch, Zipkin, etc.
+
+- Deployment Goals
+
+	- Use Digital Ocean to create a realistic deployment
+	- Use Digitial Ocean Managed MySQL databases
+		- Setup 3 - one per microservice
+		- Larger organizations will have a database administration team
+	- Setup a dedicated JMS broker
+		- High volume production would use a cluster
+
+	- Setup Dedicated Eureka Server
+		- Production would have a cluster for high availability
+
+	- Setup Dedicated Elasticsearch Server
+		- Production woul dhave a cluster for high availability and scalability
+
+	- Setup Dedicated Zipkin Server
+		- Production would use a Cassandra or Elasticsearch data store
+
+	- Setup Dedicated Cloud Configuration Server
+		- Production would user a cluster for high availiabilty
+		- having just one config server creates a single point of failure SPOF
+
+	- Deploy Spring Boot Services to 3 node Swarm Cluster
+		- Gateway, Beer Service, Inventory Service, Inventory Failover Service, Beer Order Service
+		- Use Spring Cloud Config with new profile for cloud deployment
+	- Filebeat
+		- Deploy per node, use 'extra_hosts' to config Elasticsearch Server
+
+- Summary
+	- Deployment needs 12 different servers (included 3 MySQL instances)
+		- 1 GB RAM / 1 vCPU
+	- For simplicity we will use Docker deployments
+	- VMs for services - 6 VMs with 4 GB
+	- VMs for Swarm Cluster - 3 VMs with 8 GB
+
+  [Top](#top)
+
   
   ### [Consolidated Logging (ELK Stack)](#consolidated-logging-elk-stack)
     
@@ -303,7 +363,7 @@ CircleCI badge
               
               docker push YOUR_DOCKERHUB_NAME/firstimage
 
-            - mvn clean package docker:build docker:push
+          # - mvn clean package docker:build docker:push
      - need to push each server/microservice up to DockerHub
           - Docker interview with John Thompson and James Labocki of Redhat on Docker
           - https://www.udemy.com/course/spring-boot-microservices-with-spring-cloud-beginner-to-guru/learn/lecture/20118108#questions

@@ -36,8 +36,8 @@ services:
         - config
         - jms
       environment:
-        SPRING_PROFILES_ACTIVE: local-discovery
-#        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+        SPRING_PROFILES_ACTIVE: local-discovery, localmysql
+        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
         SPRING_ZIPKIN_BASEURL: http://zipkin:9411
         SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerinventoryservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
@@ -70,7 +70,7 @@ services:
         - jms
       environment:
         SPRING_PROFILES_ACTIVE: local-discovery, localmysql
-#        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
         EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
         SPRING_ZIPKIN_BASEURL: http://zipkin:9411
@@ -90,7 +90,7 @@ services:
         - jms
       environment:
         SPRING_PROFILES_ACTIVE: local-discovery, localmysql
-#        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
+        SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://MyUserName:MySecretPassword@config:8888"}}}}'
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
         EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
         SPRING_ZIPKIN_BASEURL: http://zipkin:9411
